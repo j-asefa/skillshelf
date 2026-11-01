@@ -1,0 +1,47 @@
+{
+  "name": "skillshelf",
+  "version": "0.1.0",
+  "description": "Agent skills loaded by name over MCP, pinned to Git commits, with nothing preloaded into context.",
+  "scripts": {
+    "build": "tsc",
+    "typecheck": "tsc --noEmit",
+    "test": "node --test test/*.test.ts",
+    "check": "npm run typecheck && npm test",
+    "prepack": "npm run build",
+    "smoke": "npm run build && node scripts/smoke.ts"
+  },
+  "keywords": [
+    "mcp",
+    "agent-skills",
+    "skills",
+    "claude",
+    "codex"
+  ],
+  "license": "MIT",
+  "type": "module",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.32.2",
+    "yaml": "^2.9.1",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.6",
+    "typescript": "^7.0.2"
+  },
+  "bin": {
+    "skillshelf": "dist/cli.js"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=22.18"
+  },
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/j-asefa/skillshelf.git"
+  }
+}
