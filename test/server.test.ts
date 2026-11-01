@@ -111,4 +111,11 @@ test("speaks the MCP skills extension: skills/list, skills/get and resources/rea
   );
   const read = await client.readResource({ uri: "skill://matt/tdd/mocking.md" });
   assert.equal((read.contents[0] as { text: string }).text, "Mock at boundaries.\n");
+  const skill = await client.readResource({ uri: "skill://matt/grill-me/SKILL.md" });
+  assert.match((skill.contents[0] as { text: string }).text, /^---\nname: grill-me/);
+});
+
+test("resources/list stays empty however large the library is", async () => {
+  const { client } = await connect();
+  assert.deepEqual((await client.listResources()).resources, []);
 });

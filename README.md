@@ -45,7 +45,7 @@ Every skill is addressed as `<source>/<name>`, so two repositories can both have
 
 ## MCP Skills Extension
 
-The server also implements [SEP-2640](https://modelcontextprotocol.io/seps/2640-skills-extension): it declares `io.modelcontextprotocol/skills`, answers `skills/list` and `skills/get` with frontmatter, digests and sizes, and serves every file as a `skill://<source>/<name>/<file>` resource. Hosts that support the extension can load skills natively; the tools above work everywhere else. `resources/directory/read` is not implemented.
+The server also implements [SEP-2640](https://modelcontextprotocol.io/seps/2640-skills-extension): it declares `io.modelcontextprotocol/skills`, answers `skills/list` and `skills/get` with frontmatter, digests and sizes, and serves every file as a `skill://<source>/<name>/<file>` resource. Those resources are readable by URI but `resources/list` returns none, so the listing stays the same size however large the library is; `skills/list` is the catalogue. Clients that browse `resources/list` will not see skill files. Hosts that support the extension can load skills natively; the tools above work everywhere else. `resources/directory/read` is not implemented.
 
 ## Safety
 
