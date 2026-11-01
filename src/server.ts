@@ -17,7 +17,6 @@ import { find, lookup } from "./lookup.ts";
 export const VERSION = "0.1.0";
 export const SKILLS_EXTENSION = "io.modelcontextprotocol/skills";
 const PAGE = 100;
-const RESOURCE_PAGE = 200;
 const READ_CHUNK = 100_000;
 
 // Fixed text: no skill names or descriptions ever reach tool descriptions or instructions.
@@ -118,17 +117,9 @@ export function createServer(catalog: Catalog): Server {
     }
   });
 
-  server.setRequestHandler(ListResourcesRequestSchema, (request) => {
-    const all = [...byUri.entries()];
-    const start = Number(request.params?.cursor ?? 0) || 0;
-    const page = all.slice(start, start + RESOURCE_PAGE).map(([uri, { skill, file }]) =>
-      file === "SKILL.md"
-        ? { uri, name: skill.name, description: skill.description, mimeType: "text/markdown" }
-        : { uri, name: file, mimeType: mimeTypeOf(file) },
-    );
-    const next = start + RESOURCE_PAGE;
-    return { resources: page, ...(next < all.length ? { nextCursor: String(next) } : {}) };
-  });
+  // Files are readable by URI but never enumerated, so the listing does not grow with the
+  // library. skills/list is the catalogue; SEP-2640 does not require skill files to be listed.
+  server.setRequestHandler(ListResourcesRequestSchema, () => ({ resources: [] }));
 
   server.setRequestHandler(ReadResourceRequestSchema, async (request) => {
     const hit = byUri.get(request.params.uri);
